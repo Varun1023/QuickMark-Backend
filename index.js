@@ -15,12 +15,15 @@ const app = express();
    CORS CONFIG (LOCAL ONLY)
 ======================= */
 const corsOptions = {
-  origin: "http://localhost:3000", // frontend
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  origin: "http://localhost:3000",
   credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 };
 
 app.use(cors(corsOptions));
+
+// 🔥 IMPORTANT: explicitly handle preflight
+app.options("*", cors(corsOptions));
 
 /* =======================
    MIDDLEWARES
