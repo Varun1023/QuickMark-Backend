@@ -13,7 +13,7 @@ const app = express();
 
 
 const allowedOrigins = [
-  "http://localhost:3000",
+  "http://localhost:10000",
   "https://quickmark-frontend.vercel.app"
 ];
 
