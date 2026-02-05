@@ -15,7 +15,7 @@ const app = express();
 const corsOptions = {
   origin: [
     "http://localhost:3000",             
-    "quickmark-frontend.vercel.app"     
+    "http://quickmark-frontend.vercel.app"     
   ],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
