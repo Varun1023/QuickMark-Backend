@@ -11,42 +11,37 @@ const sdr = require("./route/studentDashboardRoutes");
 
 const app = express();
 
-/* =======================
-   CORS CONFIG (LOCAL ONLY)
-======================= */
+
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: [
+    "http://localhost:3000",             
+    "quickmark-frontend.vercel.app"     
+  ],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 };
 
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); 
 
-// 🔥 IMPORTANT: explicitly handle preflight
+app.use(cors(corsOptions));
+
+
 app.options("*", cors(corsOptions));
 
-/* =======================
-   MIDDLEWARES
-======================= */
+
 app.use(express.json());
 
-/* =======================
-   CONNECT DB
-======================= */
+
 db();
 
-/* =======================
-   ROUTES
-======================= */
+
 app.use("/api/auth", Authroute);
 app.use("/api/attendance", qrRoute);
 app.use("/api/attendance", srouter);
 app.use("/api/attendance", countRouter);
 app.use("/api/student-dashboard", sdr);
 
-/* =======================
-   HEALTH CHECK
-======================= */
 app.get("/", (req, res) => {
   res.send("QuickMark Backend is Live 🚀");
 });
@@ -55,9 +50,7 @@ app.get("/api/auth/test", (req, res) => {
   res.json({ ok: true, msg: "Auth route is mounted" });
 });
 
-/* =======================
-   SERVER
-======================= */
+
 const PORT = process.env.PORT || 5600;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

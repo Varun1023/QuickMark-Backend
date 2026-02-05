@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     rollNo: {
-      type: String, // optional
+      type: String, 
     },
   },
   { timestamps: true }
