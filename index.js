@@ -48,6 +48,10 @@ app.get("/", (req, res) => {
   res.send("QuickMark Backend is Live 🚀");
 });
 
+app.get("/api/auth/test", (req, res) => {
+  res.json({ ok: true, msg: "Auth route is mounted" });
+});
+
 /* =======================
    SERVER
 ======================= */
