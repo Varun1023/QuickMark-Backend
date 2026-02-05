@@ -12,21 +12,25 @@ const sdr = require("./route/studentDashboardRoutes");
 const app = express();
 
 
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://quickmark-frontend.vercel.app"
+];
+
 const corsOptions = {
-  origin: [
-    "http://localhost:3000",             
-    "http://quickmark-frontend.vercel.app"     
-  ],
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 };
 
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions)); 
-
-app.use(cors(corsOptions));
-
-
 app.options("*", cors(corsOptions));
 
 
@@ -41,6 +45,7 @@ app.use("/api/attendance", qrRoute);
 app.use("/api/attendance", srouter);
 app.use("/api/attendance", countRouter);
 app.use("/api/student-dashboard", sdr);
+
 
 app.get("/", (req, res) => {
   res.send("QuickMark Backend is Live 🚀");
