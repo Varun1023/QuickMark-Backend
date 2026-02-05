@@ -1,6 +1,5 @@
 require("dotenv").config();
 const express = require("express");
-
 const cors = require("cors");
 
 const db = require("./dbconfig/dbconfig");
@@ -12,23 +11,47 @@ const sdr = require("./route/studentDashboardRoutes");
 
 const app = express();
 
-// 🔗 Connect DB
-db();
+/* =======================
+   CORS CONFIG (LOCAL ONLY)
+======================= */
+const corsOptions = {
+  origin: "http://localhost:3000", // frontend
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+};
 
-app.use(cors())
-app.use(express.json())
+app.use(cors(corsOptions));
 
-// Middleware
+/* =======================
+   MIDDLEWARES
+======================= */
 app.use(express.json());
 
-// Routes
+/* =======================
+   CONNECT DB
+======================= */
+db();
+
+/* =======================
+   ROUTES
+======================= */
 app.use("/api/auth", Authroute);
 app.use("/api/attendance", qrRoute);
 app.use("/api/attendance", srouter);
 app.use("/api/attendance", countRouter);
 app.use("/api/student-dashboard", sdr);
 
-// Server
-app.listen(process.env.PORT, () => {
-  console.log(`Server running on port ${process.env.PORT}`);
+/* =======================
+   HEALTH CHECK
+======================= */
+app.get("/", (req, res) => {
+  res.send("QuickMark Backend is Live 🚀");
+});
+
+/* =======================
+   SERVER
+======================= */
+const PORT = process.env.PORT || 5600;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
